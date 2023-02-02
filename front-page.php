@@ -18,15 +18,15 @@
                         'post_type'      => 'post',
                         'posts_per_page' => 3,
                     );
-                    $neko_news_query = new WP_Query( $neko_args );
-                    if ( $neko_news_query->have_posts() ) :
-                        ?>
+                    $neko_news_query = new WP_Query($neko_args);
+                    if ($neko_news_query->have_posts()) :
+                    ?>
                         <?php
-                        while ( $neko_news_query->have_posts() ) :
+                        while ($neko_news_query->have_posts()) :
                             $neko_news_query->the_post();
-                            ?>
-                            <?php get_template_part( 'template-parts/loop', 'post' ); ?>
-                            <?php
+                        ?>
+                            <?php get_template_part('template-parts/loop', 'post'); ?>
+                        <?php
                         endwhile;
                         wp_reset_postdata();
                         ?>
@@ -38,47 +38,43 @@
             </p>
         </section>
         <section class="home-Style">
-            <h2 class="home-Style_Title">ヘアスタイル<span>Hairstyles</span></h2>
+            <h2 class="home-Style_Title">ねこねこねこねこ<span>We love cats!</span></h2>
             <div class="row">
-                <div class="col-6 col-md-3">
-                    <div class="module-Style_Item">
-                        <a href="#" class="module-Style_Item_Link" title="メンズパーマ">
-                            <figure class="module-Style_Item_Img">
-                                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/img/hairstyle4.png" alt="">
-                            </figure>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="module-Style_Item">
-                        <a href="#" class="module-Style_Item_Link" title="前髪ありキュートボブ">
-                            <figure class="module-Style_Item_Img">
-                                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/img/hairstyle3.png" alt="">
-                            </figure>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="module-Style_Item">
-                        <a href="#" class="module-Style_Item_Link" title="メンズカット">
-                            <figure class="module-Style_Item_Img">
-                                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/img/hairstyle2.png" alt="">
-                            </figure>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="module-Style_Item">
-                        <a href="#" class="module-Style_Item_Link" title="大人ミディアム">
-                            <figure class="module-Style_Item_Img">
-                                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/img/hairstyle1.png" alt="">
-                            </figure>
-                        </a>
-                    </div>
-                </div>
+                <?php
+                $neko_args = array(
+                    'post_type' => 'cats',
+                    'post_per_page' => 4,
+                );
+
+                $neko_cats_query = new WP_Query($neko_args);
+                if ($neko_cats_query->have_posts()) :
+                ?>
+                    <?php
+                    while ($neko_cats_query->have_posts()) :
+                        $neko_cats_query->the_post();
+                    ?>
+                        <div class="col-6 col-md-3">
+                            <div id="post-<?php the_ID(); ?>" <?php post_class('module-Style_Item'); ?>>
+                                <a href="<?php the_permalink(); ?>" class="module-Style_Item_Link" title="<?php the_title(); ?>">
+                                    <figure class="module-Style_Item_Img">
+                                        <?php if (has_post_thumbnail()) : ?>
+                                            <!-- coverで正方形にしてる -->
+                                            <?php the_post_thumbnail('page_eyecatch'); ?>
+                                        <?php else : ?>
+                                            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/img/dummy-image_lg.png" alt="" width="400" height="400" load="lazy">
+                                        <?php endif; ?>
+                                    </figure>
+                                </a>
+                            </div>
+                        </div>
+                    <?php
+                    endwhile;
+                    wp_reset_postdata();
+                    ?>
+                <?php endif; ?>
             </div>
             <p class="home-Style_More">
-                <a href="#" class="home-Style_More_Link">もっと見る</a>
+                <a href="<?php echo esc_url( home_url( 'cats'));?>" class="home-Style_More_Link">もっと見る</a>
             </p>
         </section>
         <section class="home-ShopInfo">
